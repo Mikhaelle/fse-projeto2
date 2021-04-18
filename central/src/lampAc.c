@@ -35,15 +35,12 @@ void sendComand(State state){
     res = enviaDistribuido(LAMP4, state.lamp4);
   }
   if (state.ac1 != _state.ac1) {
-
-      printf("antes %d\n", _state.ac1);
     res = enviaDistribuido(AC1, state.ac1);
   }
   if (state.ac2 != _state.ac2) {
     res = enviaDistribuido(AC2, state.ac2);
   }
 
-printf("res: %d\n", res);
   if (res == 0) {
     _state = state;
     atualizaState(_state);

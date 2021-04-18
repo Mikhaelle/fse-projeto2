@@ -2,9 +2,12 @@
 #include <stdlib.h>
 #include <menu.h>
 #include <lampAc.h>
+#include <sensor.h>
 
 Bme280 bme280;
 State state;
+WINDOW * menuwin;
+Entry entry;
 
 void print_lampadas(WINDOW * menuwin ){
     char choicesLampAc[7][50] = {"Lampada da cozinha", "Lampada da sala", "Lampada do quarto1", "Lampada do quarto 2", "Ar-condicionado1", "Ar-condicionad2", "Alarme"};
@@ -53,6 +56,47 @@ void print_state(WINDOW * menuwin ){
 	   wattroff(menuwin, COLOR_PAIR(state.alarm == 1 ? 3 : 2));
 }
 
+void print_entry(WINDOW * menuwin ){
+       wattron(menuwin, COLOR_PAIR(entry.pres1 == 1 ? 3 : 2));
+	mvwprintw(menuwin, 1, 94, entry.pres1 == 1 ? "ON " : "OFF");
+	wattroff(menuwin, COLOR_PAIR(entry.pres1 == 1 ? 3 : 2));
+
+    wattron(menuwin, COLOR_PAIR(entry.pres2 == 1 ? 3 : 2));
+	mvwprintw(menuwin, 2, 94, entry.pres2 == 1 ? "ON " : "OFF");
+	wattroff(menuwin, COLOR_PAIR(entry.pres2 == 1 ? 3 : 2));
+
+    wattron(menuwin, COLOR_PAIR(entry.abr1 == 1 ? 3 : 2));
+	mvwprintw(menuwin, 3, 94, entry.abr1 == 1 ? "ON " : "OFF");
+	wattroff(menuwin, COLOR_PAIR(entry.abr1 == 1 ? 3 : 2));
+
+    wattron(menuwin, COLOR_PAIR(entry.abr2 == 1 ? 3 : 2));
+	mvwprintw(menuwin, 4, 94, entry.abr2 == 1 ? "ON " : "OFF");
+	wattroff(menuwin, COLOR_PAIR(entry.abr2 == 1 ? 3 : 2));
+
+    wattron(menuwin, COLOR_PAIR(entry.abr3 == 1 ? 3 : 2));
+	mvwprintw(menuwin, 5, 94, entry.abr3 == 1 ? "ON " : "OFF");
+	wattroff(menuwin, COLOR_PAIR(entry.abr3 == 1 ? 3 : 2));
+
+    wattron(menuwin, COLOR_PAIR(entry.abr4 == 1 ? 3 : 2));
+	mvwprintw(menuwin, 6, 94, entry.abr4 == 1 ? "ON " : "OFF");
+	wattroff(menuwin, COLOR_PAIR(entry.abr4 == 1 ? 3 : 2));
+
+    wattron(menuwin, COLOR_PAIR(entry.abr5 == 1 ? 3 : 2));
+	mvwprintw(menuwin, 7, 94, entry.abr5 == 1 ? "ON " : "OFF");
+	wattroff(menuwin, COLOR_PAIR(entry.abr5 == 1 ? 3 : 2));
+
+    wattron(menuwin, COLOR_PAIR(entry.abr6 == 1 ? 3 : 2));
+	mvwprintw(menuwin, 8, 94, entry.abr6 == 1 ? "ON " : "OFF");
+	wattroff(menuwin, COLOR_PAIR(entry.abr6 == 1 ? 3 : 2));
+}
+
+void print_bme(WINDOW * menuwin){
+wattron(menuwin, COLOR_PAIR(1));
+        mvwprintw(menuwin, 10, 1, "TEMPERATURE: %lf", bme280.temperature);
+        mvwprintw(menuwin, 11, 1, "HUMIDITY: %lf", bme280.humidity);
+	    wattroff(menuwin, COLOR_PAIR(1));
+}
+
 void *menu()
 {  
     initscr();
@@ -68,7 +112,7 @@ void *menu()
     int yMax, xMax;
     getmaxyx(stdscr, yMax, xMax);
 
-    WINDOW * menuwin = newwin(15, 130,1 , 15);
+    menuwin = newwin(15, 130,1 , 15);
     box(menuwin, 0, 0);
     refresh();
     wrefresh(menuwin);
@@ -89,14 +133,13 @@ void *menu()
             mvwprintw(menuwin, i+1, 1, choices[i]);
             wattroff(menuwin, A_REVERSE);
         }
-        wattron(menuwin, COLOR_PAIR(1));
-        mvwprintw(menuwin, 10, 1, "TEMPERATURE: %lf", bme280.temperature);
-        mvwprintw(menuwin, 11, 1, "HUMIDITY: %lf", bme280.humidity);
-	    wattroff(menuwin, COLOR_PAIR(1));
+        
 
        print_lampadas( menuwin );
        print_sensores( menuwin );
        print_state( menuwin );
+       print_bme(menuwin);
+       print_entry(menuwin );
 
         choice = wgetch(menuwin);
 
@@ -191,9 +234,17 @@ void *menu()
 
 void atualiza_bme280(Bme280 bme280Atualizado){
     bme280 = bme280Atualizado;
+    print_bme(menuwin);
+    refresh();
+    wrefresh(menuwin);
 }
 
 void atualizaState(State stateAtt){
     state = stateAtt;
 
+}
+
+void atualiza_sensor(Entry sensorAtt){
+    entry = sensorAtt;
+    print_entry(menuwin );
 }

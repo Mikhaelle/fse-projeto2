@@ -1,7 +1,7 @@
 #include "server.h"
+#include <sensor.h>
 
 void comunicacaoClienteTCP(int socketCliente) {
-    printf("comunicou\n");
 	char buffer[16];
     memset(buffer, 0, sizeof buffer);
 	int tamRecebido;
@@ -9,7 +9,6 @@ void comunicacaoClienteTCP(int socketCliente) {
 		printf("Erro no recv1(): %d\n", tamRecebido);
 
     buffer[15] = '\0';
-    printf("%s\n", buffer);
 	while (tamRecebido > 0) {
 		if(send(socketCliente, buffer, tamRecebido, 0) != tamRecebido)
 			printf("Erro no envio - send()\n");
@@ -17,6 +16,10 @@ void comunicacaoClienteTCP(int socketCliente) {
 		if((tamRecebido = recv(socketCliente, buffer, 16, 0)) < 0)
 			printf("Erro no recv2()\n");
 	}
+  	int command;
+		sscanf(buffer, "%d", &command);
+    printf("command %d", command);
+    state_entry_handler(command);
 }
 
 void *criaServidor() {
