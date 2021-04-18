@@ -27,6 +27,8 @@ Subindo o servidor:
 
 Ao rodar aparecerá o seguinte menu inicial. O usuário poderá optar por ligar as lâmpadas ou ar-condicionado e irá acompanhar o status dos sensores e a temperatura e humidade.
 
-
+![imagem1](menu.jpg)
 
 Estado no dashboard:
+
+![imagem1](dashboard.jpg)
