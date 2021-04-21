@@ -18,7 +18,6 @@ void comunicacaoClienteTCP(int socketCliente) {
 	}
   	int command;
 		sscanf(buffer, "%d", &command);
-    printf("command %d", command);
     state_entry_handler(command);
 }
 

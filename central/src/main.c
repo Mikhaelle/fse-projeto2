@@ -14,6 +14,8 @@ int main(int argc, char const *argv[])
     bme280_init();
     csv_init();
     state_init();
+    csv_sensors_init();
+    csv_lamp_e_ac_init();
 
     pthread_t menu_tid;
     pthread_t server_tid; //server thread
