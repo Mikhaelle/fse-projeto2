@@ -5,7 +5,6 @@ typedef struct {
   int lamp4;
   int ac1;
   int ac2;
-  int alarm;
 } State;
 
 void state_init();

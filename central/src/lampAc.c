@@ -16,7 +16,6 @@ void state_init() {
   _state.lamp4 = 0;
   _state.ac1 = 0;
   _state.ac2 = 0;
-  _state.alarm = 0;
   atualizaState(_state);
 }
 

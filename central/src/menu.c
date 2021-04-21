@@ -10,17 +10,17 @@ WINDOW * menuwin;
 Entry entry;
 
 void print_lampadas(WINDOW * menuwin ){
-    char choicesLampAc[7][50] = {"Lampada da cozinha", "Lampada da sala", "Lampada do quarto1", "Lampada do quarto 2", "Ar-condicionado1", "Ar-condicionad2", "Alarme"};
-    for(int i = 0; i < 7; i++){
+    char choicesLampAc[6][50] = {"Lampada da cozinha", "Lampada da sala", "Lampada do quarto1", "Lampada do quarto 2", "Ar-condicionado1", "Ar-condicionad2"};
+    for(int i = 0; i < 6; i++){
            
             mvwprintw(menuwin, i+1, 40, choicesLampAc[i]);
         }
 }
 
 void print_sensores(WINDOW * menuwin ){
-    char choicesLampAc[8][50] = {"Sensor de Presença Sala", "Sensor de Presença Cozinha", "Sensor porta cozinha", "Sensor janela cozinha", 
-                                "Sensor porta sala", "Sensor janela sala", "Sensor janela quarto 1", "Sensor janela quarto 2"};
-    for(int i = 0; i < 8; i++){
+    char choicesLampAc[9][50] = {"Sensor de Presença Sala", "Sensor de Presença Cozinha", "Sensor porta cozinha", "Sensor janela cozinha", 
+                                "Sensor porta sala", "Sensor janela sala", "Sensor janela quarto 1", "Sensor janela quarto 2", "Alarme"};
+    for(int i = 0; i < 9; i++){
            
             mvwprintw(menuwin, i+1, 66, choicesLampAc[i]);
         }
@@ -51,9 +51,7 @@ void print_state(WINDOW * menuwin ){
 	   mvwprintw(menuwin, 6, 60, state.ac2 == 1 ? "ON " : "OFF");
 	   wattroff(menuwin, COLOR_PAIR(state.ac2 == 1 ? 3 : 2));
 
-       wattron(menuwin, COLOR_PAIR(state.alarm == 1 ? 3 : 2));
-	   mvwprintw(menuwin, 7, 60, state.alarm == 1 ? "ON " : "OFF");
-	   wattroff(menuwin, COLOR_PAIR(state.alarm == 1 ? 3 : 2));
+      
 }
 
 void print_entry(WINDOW * menuwin ){
@@ -88,6 +86,10 @@ void print_entry(WINDOW * menuwin ){
     wattron(menuwin, COLOR_PAIR(entry.abr6 == 1 ? 3 : 2));
 	mvwprintw(menuwin, 8, 94, entry.abr6 == 1 ? "ON " : "OFF");
 	wattroff(menuwin, COLOR_PAIR(entry.abr6 == 1 ? 3 : 2));
+
+    wattron(menuwin, COLOR_PAIR(entry.alarm == 1 ? 3 : 2));
+	mvwprintw(menuwin, 9, 94, entry.alarm == 1 ? "ON " : "OFF");
+    wattroff(menuwin, COLOR_PAIR(entry.alarm == 1 ? 3 : 2));
 }
 
 void print_bme(WINDOW * menuwin){
@@ -213,6 +215,12 @@ void *menu()
 				}
 
 				if (option == 6) {
+                      if(entry.alarm == 0 ){
+                            entry.alarm = 1;
+                            tocaAlarme(9);
+                    }else{
+                        entry.alarm =0;
+                    }
 				}
 				if (option == 7) {
 					char *message = "Exiting...";

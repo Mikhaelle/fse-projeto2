@@ -7,6 +7,7 @@ typedef struct {
   int abr4;
   int abr5;
   int abr6;
+  int alarm;
 } Entry;
 
 void state_entry_handler(int command);

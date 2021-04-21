@@ -16,6 +16,7 @@ int main(int argc, char const *argv[])
     state_init();
     csv_sensors_init();
     csv_lamp_e_ac_init();
+    csv_init_alarm();
 
     pthread_t menu_tid;
     pthread_t server_tid; //server thread
